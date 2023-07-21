@@ -1,15 +1,17 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: api-gerenciador-conta-pi
+  name: api-pagamento-instantaneo
   namespace: autbank-pix
 spec:
   scaleTargetRef:
     name: api-pagamento-instantaneo
+  minReplicaCount: 2        
+  maxReplicaCount: 8
   triggers:
   - type: prometheus
     metadata:
       serverAddress: http://192.168.5.161:30121
       metricName: network_receive_bytes_api_pagamento_instantaneo_teste
-      threshold: '2000'
+      threshold: '204800'
       query: sum(rate(container_network_receive_bytes_total{pod=~"api-pagamento-instantaneo-[a-z0-9]+-[^-]+"}[2m]))*8
