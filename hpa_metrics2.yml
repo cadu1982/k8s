@@ -1,0 +1,20 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-api-pagamento-instantaneo
+  namespace: autbank-pix
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment  
+    name: api-pagamento-instantaneo
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Prometheus
+      external:
+        metric:
+          name: network_receive_bytes_api_pagamento_instantaneo_teste
+        target:
+          type: AverageValue
+          averageValue: "200000"

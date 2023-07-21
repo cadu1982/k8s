@@ -1,0 +1,84 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: scaler-up-api-pagamento-instantaneo
+  namespace: autbank-pix
+spec:
+  schedule: "0 11 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: hpa-scaler-sa
+          containers:
+          - name: hpa-scaler
+            image: bitnami/kubectl:latest
+            command:
+            - "/bin/sh"
+            - "-c"
+            - "kubectl patch hpa hpa-api-pagamento-instantaneo -p '{\"spec\":{\"minReplicas\": 8}}' --type=merge"
+          restartPolicy: OnFailure
+      ttlSecondsAfterFinished: 30
+
+---
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: scaler-down-api-pagamento-instantaneo
+  namespace: autbank-pix
+spec:
+  schedule: "0 12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: hpa-scaler-sa
+          containers:
+          - name: hpa-scaler-down
+            image: bitnami/kubectl:latest
+            command:
+            - "/bin/sh"
+            - "-c"
+            - "kubectl patch hpa hpa-api-pagamento-instantaneo -p '{\"spec\":{\"minReplicas\": 2}}' --type=merge"
+          restartPolicy: OnFailure
+      ttlSecondsAfterFinished: 30  # Remover Pods após 60 segundos da conclusão
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name:  hpa-scaler-sa
+  namespace: autbank-pix
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hpa-scaler-role
+  namespace: autbank-pix
+rules:
+  - apiGroups: ["autoscaling"]
+    resources: ["horizontalpodautoscalers"]
+    verbs: ["patch", "get"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hpa-scaler-rolebinding
+  namespace: autbank-pix
+subjects:
+  - kind: ServiceAccount
+    name: hpa-scaler-sa
+    namespace: autbank-pix
+roleRef:
+  kind: Role
+  name: hpa-scaler-role
+  apiGroup: rbac.authorization.k8s.io
+
+
+

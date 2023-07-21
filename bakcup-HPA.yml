@@ -1,0 +1,90 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-api-pagamento-instantaneo
+  namespace: autbank-pix
+  uid: ea5f9d30-ec01-4f0e-8dda-cd4b6190d86b
+  resourceVersion: '432421536'
+  creationTimestamp: '2023-01-25T18:22:48Z'
+  labels:
+    k8slens-edit-resource-version: v1
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: >-
+      [{"type":"AbleToScale","status":"True","lastTransitionTime":"2023-01-25T18:23:04Z","reason":"ReadyForNewScale","message":"recommended
+      size matches current
+      size"},{"type":"ScalingActive","status":"True","lastTransitionTime":"2023-07-04T12:38:55Z","reason":"ValidMetricFound","message":"the
+      HPA was able to successfully calculate a replica count from cpu resource
+      utilization (percentage of
+      request)"},{"type":"ScalingLimited","status":"True","lastTransitionTime":"2023-07-18T12:05:44Z","reason":"TooFewReplicas","message":"the
+      desired replica count is less than the minimum replica count"}]
+    autoscaling.alpha.kubernetes.io/current-metrics: >-
+      [{"type":"Resource","resource":{"name":"cpu","currentAverageUtilization":5,"currentAverageValue":"27m"}}]
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"autoscaling/v2beta2","kind":"HorizontalPodAutoscaler","metadata":{"annotations":{},"name":"hpa-api-pagamento-instantaneo","namespace":"autbank-pix"},"spec":{"maxReplicas":4,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":70,"type":"Utilization"}},"type":"Resource"}],"minReplicas":2,"scaleTargetRef":{"apiVersion":"apps/v1","kind":"Deployment","name":"api-pagamento-instantaneo"}}}
+  managedFields:
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: autoscaling/v2beta2
+      time: '2023-01-25T18:22:48Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:spec:
+          f:metrics: {}
+          f:scaleTargetRef:
+            f:apiVersion: {}
+            f:kind: {}
+            f:name: {}
+    - manager: node-fetch
+      operation: Update
+      apiVersion: autoscaling/v1
+      time: '2023-07-17T16:08:35Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:k8slens-edit-resource-version: {}
+        f:spec:
+          f:maxReplicas: {}
+    - manager: kubectl-patch
+      operation: Update
+      apiVersion: autoscaling/v1
+      time: '2023-07-17T16:17:11Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:minReplicas: {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: autoscaling/v1
+      time: '2023-07-18T11:00:45Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:autoscaling.alpha.kubernetes.io/conditions: {}
+            f:autoscaling.alpha.kubernetes.io/current-metrics: {}
+        f:status:
+          f:currentCPUUtilizationPercentage: {}
+          f:currentReplicas: {}
+          f:desiredReplicas: {}
+          f:lastScaleTime: {}
+  selfLink: >-
+    /apis/autoscaling/v1/namespaces/autbank-pix/horizontalpodautoscalers/hpa-api-pagamento-instantaneo
+status:
+  lastScaleTime: '2023-07-18T12:00:27Z'
+  currentReplicas: 2
+  desiredReplicas: 2
+  currentCPUUtilizationPercentage: 5
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: api-pagamento-instantaneo
+    apiVersion: apps/v1
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70

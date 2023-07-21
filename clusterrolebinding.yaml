@@ -1,0 +1,95 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"name":"calico-kube-controllers"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"calico-kube-controllers"},"subjects":[{"kind":"ServiceAccount","name":"calico-kube-controllers","namespace":"kube-system"}]}
+    creationTimestamp: "2023-02-24T13:02:11Z"
+    name: calico-kube-controllers
+    resourceVersion: "137"
+    uid: fa9b4901-4b3e-4912-9517-30c39d9b455d
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: calico-kube-controllers
+  subjects:
+  - kind: ServiceAccount
+    name: calico-kube-controllers
+    namespace: kube-system
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"name":"calico-node"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"calico-node"},"subjects":[{"kind":"ServiceAccount","name":"calico-node","namespace":"kube-system"}]}
+    creationTimestamp: "2023-02-24T13:02:12Z"
+    name: calico-node
+    resourceVersion: "141"
+    uid: ebaa1bf9-692d-4420-be9e-c3e6c1fdd614
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: calico-node
+  subjects:
+  - kind: ServiceAccount
+    name: calico-node
+    namespace: kube-system
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"name":"coredns"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"coredns"},"subjects":[{"kind":"ServiceAccount","name":"coredns","namespace":"kube-system"}]}
+    creationTimestamp: "2023-02-24T16:57:06Z"
+    name: coredns
+    resourceVersion: "18751"
+    uid: 70178782-3cae-4c07-8ec7-5e7a292065d7
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: coredns
+  subjects:
+  - kind: ServiceAccount
+    name: coredns
+    namespace: kube-system
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"name":"microk8s-hostpath"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"microk8s-hostpath"},"subjects":[{"kind":"ServiceAccount","name":"microk8s-hostpath","namespace":"kube-system"}]}
+    creationTimestamp: "2023-06-18T16:14:54Z"
+    name: microk8s-hostpath
+    resourceVersion: "3960075"
+    uid: 866d5789-b388-4217-8fbb-f7d2c980070c
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: microk8s-hostpath
+  subjects:
+  - kind: ServiceAccount
+    name: microk8s-hostpath
+    namespace: kube-system
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"name":"kube-schedule-scaler"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"kube-schedule-scaler"},"subjects":[{"kind":"ServiceAccount","name":"kube-schedule-scaler","namespace":"kube-schedule-scaler"}]}
+    creationTimestamp: "2023-06-27T14:00:18Z"
+    name: kube-schedule-scaler
+    resourceVersion: "4343727"
+    uid: 0ab9a117-af96-421c-943d-2e9e129d6e8b
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: kube-schedule-scaler
+  subjects:
+  - kind: ServiceAccount
+    name: kube-schedule-scaler
+    namespace: kube-schedule-scaler
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kubectl-scaler-up
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: kubectl-scaler-up
+          containers:
+          - name: kubectl-scaler-up
+            image: bitnami/kubectl:latest
+            command: ["/bin/sh", "-c"]
+            args:
+            - kubectl scale deployment nginx --replicas=10
+          restartPolicy: OnFailure
+
+---
+
+# apiVersion: batch/v1
+# kind: CronJob
+# metadata:
+#   name: kubectl-scaler-down
+# spec:
+#   schedule: "*/8 * * * *"
+#   jobTemplate:
+#     spec:
+#       template:
+#         spec:
+#           serviceAccountName: kubectl-scaler
+#           containers:
+#           - name: kubectl-scaler-down
+#             image: bitnami/kubectl:1.25.11
+#             command: ["/bin/sh", "-c"]
+#             args:
+#             - kubectl scale deployment nginxa --replicas=1
+#           restartPolicy: OnFailure
+
+---
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubectl-scaler-up
+
+---
+
+
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: kubectl-scaler-down
+
+
+---
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubectl-scaler-up
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments", "deployments/scale"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+
+---
+
+
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: Role
+# metadata:
+#   name: kubectl-scaler-down
+# rules:
+# - apiGroups: ["apps"]
+#   resources: ["deployments", "deployments/scale"]
+#   verbs: ["get", "list", "watch", "update", "patch"]
+
+
+---
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubectl-scaler-up
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubectl-scaler-up
+subjects:
+- kind: ServiceAccount
+  name: kubectl-scaler-up
+  namespace: default
+
+---
+
+
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: RoleBinding
+# metadata:
+#   name: kubectl-scaler-down
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: Role
+#   name: kubectl-scaler-down
+# subjects:
+# - kind: ServiceAccount
+#   name: kubectl-scaler-down
+#   namespace: default

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: scale-up
+spec:
+  schedule: "10 11 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: scale
+            image: siji/kubectl:v1.5.2
+            command:
+            - kubectl.sh
+            - kubectl
+            - scale
+            - --replicas=10
+            - deployment/ftp
+          restartPolicy: OnFailure

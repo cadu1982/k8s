@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: api-pagamento-instantaneo-teste
+  namespace: autbank-pix
+  labels:
+    app: kube-prometheus-stack
+    release: prometheus-operator
+spec:
+  groups:
+  - name: api-pagamento-instantaneo-rules-teste3
+    rules:
+    - record: network_receive_bytes_api_pagamento_instantaneo_teste
+      expr: sum(rate(container_network_receive_bytes_total{pod=~"api-pagamento-instantaneo-[a-z0-9]+-[^-]+"}[2m]))*8

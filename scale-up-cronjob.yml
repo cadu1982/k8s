@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: scale-up-cronjob
+spec:
+  schedule: "59 10 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl
+            command:
+            - kubectl
+            - scale
+            - --replicas=10
+            - deployment/ftp
+          restartPolicy: OnFailure

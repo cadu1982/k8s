@@ -1,0 +1,7 @@
+- name: gi.record.icom.recebimento.rules
+      rules:
+      - expr: histogram_quantile(0.95, sum by(le,namespace,status) (rate(gi_v2_spi_recebimento_seconds_bucket[5m])))
+          > 0
+        record: icom:recebimento_p95
+      - expr: histogram_quantile(0.75, sum by(le,namespace,status) (rate(gi_v2_spi_recebimento_seconds_bucket[5m])))
+          > 0
