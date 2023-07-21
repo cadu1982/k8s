@@ -14,7 +14,7 @@ consulta=0
 
 while true; do
     # Exibe a mensagem com o numero de consulatas e o tempo total da soma de todas as consultas 
-    echo "Esta é a $consulta consulta e já fas $tempo segundos!!!"
+    echo "Esta é a $consulta consulta e já faz $tempo segundos!!!"
     
     # Executa o comando kubectl e filtra os nomes
     kubectl get pods -n autbank-pix | awk '$1 ~ /^api-pagamento-instantaneo-[[:alnum:]]+-[[:alnum:]]+$/ {print $1}'
